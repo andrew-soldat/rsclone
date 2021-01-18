@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+	<div class="wrapper">
+		<header class="header">
+			<div class='container'>
+				<div class="header__body">
+					<div id="date" class="header__date column-left"></div>
+					<h1 class="header__title column-right">My To Do List</h1>
+				</div>
+			</div>
+		</header>
+		<main class="main">
+			<div class='container'>
+				<div class="main__body">
+					<div class="main__workspaces workspaces column-left">
+						<h3 class="workspaces__title">Workspaces</h3>
+						<ul class="workspaces__list">
+							<!-- <li class="workspaces__item">
+								<i class="fas fa-folder"></i>
+								<span class="workspaces__item_text">Work</span>
+								<i class="fas fa-trash workspaces__item_remove"></i>
+							</li> -->
+						</ul>
+						<div class="workspaces__addItem">
+							<button class="workspaces__button"><i class="fas fa-plus"></i></button>
+							<span class="workspaces__text">New Workspaces</span>
+							<div class="workspaces__add-item add-item-workspaces">
+								<input class="add-item-workspaces__input"></input>
+								<button class="add-item-workspaces__btn">Add workspaces</button>
+							</div>
+						</div>
+					</div>
+					<div class="main__desk">
+						<div class="main__message message">
+							<input type="text" class="message__input" placeholder="New To Do List">
+							<button class="message__btn">Add To Do List</button>
+						</div>
+						<div class="main__list list-main">
+							<ul class="list-main__list">
+								<!-- <li class="list-main__item">Go to work</li> -->
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer class="footer">
+			<div class='container'>
+				<div class="footer__body">
+					<div class="footer__author">Created by 
+						<a class="footer__author_link" href="https://github.com/andrew-soldat" target="blank">Andrew Blishch</a>
+						for the<a class="footer__logo" href="https://rs.school/js/" target="blank"><img src="./images/rs_school_js.svg" alt="rs_school_js"></a>
+					</div>
+					<div class="footer__copyright">© 2020</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+</body>
+</html>
