@@ -18,18 +18,14 @@
 		</header>
 		<main class="main">
 			<div class='container'>
-				<div class="main__body">
+				<div class="main__wrapper">
 					<div class="main__workspaces workspaces column-left">
 						<h3 class="workspaces__title">Workspaces</h3>
-						<ul class="workspaces__list">
-							<!-- <li class="workspaces__item">
-								<i class="fas fa-folder"></i>
-								<span class="workspaces__item_text">Work</span>
-								<i class="fas fa-trash workspaces__item_remove"></i>
-							</li> -->
+						<ul class="workspaces__list list-workspaces">
+							
 						</ul>
 						<div class="workspaces__addItem">
-							<button class="workspaces__button"><i class="fas fa-plus"></i></button>
+							<button class="workspaces__button"></button>
 							<span class="workspaces__text">New Workspaces</span>
 							<div class="workspaces__add-item add-item-workspaces">
 								<input class="add-item-workspaces__input"></input>
@@ -37,14 +33,24 @@
 							</div>
 						</div>
 					</div>
-					<div class="main__desk">
-						<div class="main__message message">
-							<input type="text" class="message__input" placeholder="New To Do List">
-							<button class="message__btn">Add To Do List</button>
-						</div>
-						<div class="main__list list-main">
-							<ul class="list-main__list">
-								<!-- <li class="list-main__item">Go to work</li> -->
+					<div class="main__body">
+						<form class="main__task task">
+							<input type="text" class="task__input" placeholder="New task">
+							<div class="task__description">
+								<div class="task__info">
+									<label for="date" class="task__title">Term:</label>
+									<input type="date" id="date" class="task__date"  placeholder="New task">
+								</div>
+								<div class="task__info">
+									<label for="workspace" class="task__title">Select workspace:</label>
+									<select name="" id="workspace" class="task__select">
+									</select>
+								</div>
+								<button class="task__btn">Add task</button>
+							</div>
+						</form>
+						<div class="main__desk">
+							<ul class="main__list list-main">
 							</ul>
 						</div>
 					</div>
@@ -58,7 +64,7 @@
 						<a class="footer__author_link" href="https://github.com/andrew-soldat" target="blank">Andrew Blishch</a>
 						for the<a class="footer__logo" href="https://rs.school/js/" target="blank"><img src="./images/rs_school_js.svg" alt="rs_school_js"></a>
 					</div>
-					<div class="footer__copyright">© 2020</div>
+					<div class="footer__copyright">© 2021</div>
 				</div>
 			</div>
 		</footer>

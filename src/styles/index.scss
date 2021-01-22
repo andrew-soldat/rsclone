@@ -18,6 +18,7 @@
 	padding: 0 10px;
 }
 .column-left {
+	max-height: 100%;
 	background-color: #fff;
 	margin: 0px 10px 0px 0px;
 	flex: 0 0 250px;
@@ -44,82 +45,46 @@
 	}
 
 	&__title {
+		text-align: center;
+		font-size: 20px;
 	}
 }
 .main {
 	flex: 1 1 auto;
 
-	&__body {
+	&__wrapper {
 		display: flex;
+		min-height: 500px;
+		margin: 0px 0px 10px 0px;
 	}
 
 	&__workspaces {
 	}
 	
-	&__desk {
+	&__body {
 		flex: 1 1 auto;
+		display: flex;
+		flex-direction: column;
 	}
 
-	&__list {
+	&__desk {
 		background-color: #fff;
 		padding: 10px;
 		width: 100%;
 		box-shadow: 0 7px 14px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
+		flex: 1 1 auto;
 	}
 }
+
 .workspaces {
 	padding: 15px 0;
 
 	&__title {
-		margin: 0px 0px 10px 0px;
+		margin: 0px 0px 8px 0px;
 		padding-left: 10px;
-		font-size: 15px;
+		font-size: 13px;
 		color: #9c9c9c;
 		text-transform: uppercase;
-
-		&_plus {
-			padding: 0px 0px 0px 40px;
-		}
-	}
-
-	&__list {
-	}
-
-	&__item {
-		padding: 10px;
-		font-size: 20px;
-		cursor: pointer;
-		position: relative;
-
-		&:hover {
-			background-color: rgba(0, 218, 218, 0.1);
-		}
-
-		&:hover .workspaces__item_remove {
-			visibility: visible;
-			opacity: 1;
-		}
-
-		&_text {
-			padding-left: 15px;
-		}
-
-		&_remove {
-			height: 15px;
-			width: 15px;
-			background: url('../images/trash-bin.svg') 0 0 no-repeat;
-			position: absolute;
-			top: 12px;
-			right: 10px;
-			z-index: 2;
-			visibility: hidden;
-			opacity: 0;
-			transition: all 0.3s ease 0s;
-
-			&:hover {
-				color: red;
-			}
-		}
 	}
 
 	&__addItem {
@@ -137,6 +102,8 @@
 	&__button {
 		width: 20px;
 		height: 20px;
+		background: url('../images/plus.svg') center / 18px no-repeat;
+		border: 1px solid transparent;
 		position: absolute;
 		top: 6px;
 		left: 10px;
@@ -148,9 +115,49 @@
 
 	&__text {
 		padding-left: 30px;
-		font-size: 15px;
-			color: #9c9c9c;
-			text-transform: uppercase;
+		font-size: 13px;
+		color: #9c9c9c;
+		text-transform: uppercase;
+	}
+}
+
+.list-workspaces {
+	&__item {
+		padding: 10px 10px 10px 40px;
+		background: url('../images/folder.svg') 10px / 20px no-repeat;
+		font-size: 20px;
+		cursor: pointer;
+		position: relative;
+
+		&.active {
+			background: url('../images/folder-open.svg') 10px / 23px no-repeat;
+			background-color: rgba(0, 218, 218, 0.3);
+		}
+
+		&:hover {
+			background-color: rgba(0, 218, 218, 0.1);
+		}
+
+		&:hover .list-workspaces__delete {
+			visibility: visible;
+			opacity: 1;
+		}
+	}
+
+	&__delete {
+		height: 15px;
+		width: 15px;
+		background: url('../images/trash-bin.svg') 0 0 no-repeat;
+		position: absolute;
+		top: 12px;
+		right: 10px;
+		z-index: 2;
+		visibility: hidden;
+		opacity: 0;
+
+		&:hover {
+			background: url('../images/trash-bin-red.svg') 0 0 no-repeat;
+		}
 	}
 }
 
@@ -174,6 +181,10 @@
 		width: 100%;
 		font-size: 15px;
 		border: 1px solid #9c9c9c;
+
+		&:focus {
+			box-shadow: 0px 0px 3px 0px #9c9c9c inset;
+		}
 	}
 
 	&__btn {
@@ -193,27 +204,65 @@
 	}
 }
 
-.message {
+.task {
 	margin: 0px 0px 10px 0px;
 	background-color: #fff;
 	padding: 10px;
 	width: 100%;
 	box-shadow: 0 7px 14px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
-	display: flex;
+	
 
 	&__input {
-		flex: 1 1 auto;
-		margin-right: 10px;
+		width: 100%;
+		margin: 0px 0px 10px 0px;
 		padding: 10px;
 		border: 1px solid #9c9c9c;
 		font-size: 15px;
 		color: #000;
+
+		&:focus {
+			box-shadow: 0px 0px 3px 0px #9c9c9c inset;
+		}
+	}
+
+	&__description {
+		display: flex;
+		align-items: flex-end;
+	}
+	
+
+	&__info {
+		flex: 1 1 auto;
+		margin-right: 10px;
+	}
+
+	&__title {
+		font-size: 13px;
+		margin: 0px 0px 5px 0px;
+		color: #9c9c9c;
+		text-transform: uppercase;
+	}
+
+	&__date,
+	&__select {
+		width: 100%;
+		height: 40px;
+		padding: 10px;
+		border: 1px solid #9c9c9c;
+		font-size: 15px;
+		color: #000;
+
+		&:focus {
+			box-shadow: 0px 0px 3px 0px #9c9c9c inset;
+		}
 	}
 
 	&__btn {
 		flex: 0 0 120px;
 		font-size: 15px;
+		height: 40px;
 		color: #000;
+		text-transform: uppercase;
 		background-color: rgba(0, 218, 218, 0.1);
 		border: 1px solid #9c9c9c;
 		transition: all 0.3s ease 0s;
@@ -223,39 +272,69 @@
 		}
 	}
 }
-.list-main {
 
-	&__list {
-	}
+.list-main {
+	overflow: hidden;
 
 	&__item {
 		font-size: 20px;
 		color: #000;
-		margin: 0px 0px 20px 0px;
+		padding: 10px 40px 10px 40px;
+		border-bottom: 1px solid #9c9c9c;
 		position: relative;
 		cursor: pointer;
 
-		&_remove {
-			height: 15px;
-			width: 15px;
-			background: url('../images/trash-bin.svg') 0 0 no-repeat;
-			position: absolute;
-			top: 3px;
-			right: 10px;
-			z-index: 2;
-			visibility: hidden;
-			opacity: 0;
-			transition: all 0.3s ease 0s;
-
-			&:hover {
-				color: red;
+		&.completed {
+			.list-main__checkbox {
+				background: url('../images/check-square.svg') 0 0 no-repeat;
+			}
+			.list-main__text {
+				color: #9c9c9c;
+				text-decoration: line-through;
 			}
 		}
 
-		&:hover .list-main__item_remove {
-			visibility: visible;
-			opacity: 1;
+		&:last-child {
+			border-bottom: none;
 		}
+	}
+		
+	&__checkbox {
+		height: 20px;
+		width: 20px;
+		background: url('../images/square.svg') 0 0 no-repeat;
+		position: absolute;
+		top: 12px;
+		left: 10px;
+		z-index: 2;
+		transition: all 0.3s ease 0s;
+	}
+
+	&__date {
+		margin: 5px 0px 0px 0px;
+		font-size: 13px;
+		color: #9c9c9c;
+	}
+
+	&__delete {
+		height: 15px;
+		width: 15px;
+		background: url('../images/trash-bin.svg') 0 0 no-repeat;
+		position: absolute;
+		top: 12px;
+		right: 10px;
+		z-index: 2;
+		visibility: hidden;
+		opacity: 0;
+
+		&:hover {
+			background: url('../images/trash-bin-red.svg') 0 0 no-repeat;
+		}
+	}
+
+	&:hover .list-main__delete {
+		visibility: visible;
+		opacity: 1;
 	}
 }
 
