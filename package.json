@@ -34,5 +34,7 @@
     "webpack-merge": "^5.2.0"
   },
   "repository": {},
-  "dependencies": {}
+  "dependencies": {
+    "shortid": "^2.2.16"
+  }
 }

@@ -257,6 +257,12 @@
 		}
 	}
 
+	&__date {
+		&.date {
+			border: 1px solid red;
+		}
+	}
+
 	&__btn {
 		flex: 0 0 120px;
 		font-size: 15px;
@@ -337,6 +343,7 @@
 		opacity: 1;
 	}
 }
+
 
 .footer {
 

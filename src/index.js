@@ -1,6 +1,6 @@
-
 import "@fortawesome/fontawesome-free/js/all.js";
 import "@fortawesome/fontawesome-free/css/all.css";
+import shortid from "shortid";
 
 import example from "./js/example";
 
@@ -22,198 +22,260 @@ btnShowInputWorkspaces.addEventListener("click", function (e) {
 document.addEventListener("click", function (e) {
    if (!e.target.closest(".add-item-workspaces, .workspaces__button")) {
       blockWorkspaces.classList.remove("show");
-	}
-	if (e.target.closest(".task__btn")) {
-		containerToDoList.innerHTML = "";
-		
-		for (let i = 0; i < arrayListWorkspaces.length; i++) {
-			if (arrayListWorkspaces[i].classList.contains("active")) {
-				arrayListWorkspaces[i].classList.remove("active");
-			}
-      }
    }
+   // if (e.target.closest(".task__btn")) {
+   // 	containerTodoList.innerHTML = "";
+   // 	console.log(arrayListWorkspaces);
+
+   //    for (let i = 0; i < arrayListWorkspaces.length; i++) {
+   //       if (arrayListWorkspaces[i].classList.contains("active")) {
+   //          arrayListWorkspaces[i].classList.remove("active");
+   //       }
+   //    }
+   // }
 });
 
-const inputWorkspaces = document.querySelector(".add-item-workspaces__input"),
+const inputWorkspace = document.querySelector(".add-item-workspaces__input"),
    btnAddWorkspaces = document.querySelector(".add-item-workspaces__btn"),
-   containerListWorkspaces = document.querySelector(".list-workspaces"),
-	itemListWorkspaces = document.querySelectorAll(".list-workspaces__item"),
+   containerListWorkspace = document.querySelector(".list-workspaces"),
 	containerSelect = document.querySelector(".task__select");
 
-let workspacesList = [],
-   id = 0;
-
-const updateLocalStorage = () => {
-   localStorage.setItem("workspaces", JSON.stringify(workspacesList));
+const removeCategory = (id) => {
+   const workspace = getWorkspace();
+   delete workspace[id];
+   localStorage.setItem("workspace", JSON.stringify(workspace));
+};
+const addCategory = (newItem) => {
+   const workspace = {
+      ...getWorkspace(),
+      [shortid()]: newItem,
+   };
+   localStorage.setItem("workspace", JSON.stringify(workspace));
+};
+const addTask = (categoryId, newItem) => {
+   const workspace = getWorkspace();
+   const updatedWorkspace = {
+      ...workspace,
+      [categoryId]: {
+         ...workspace[categoryId],
+         todolist: { ...workspace[categoryId].todolist, [shortid()]: newItem }
+      },
+   };
+   localStorage.setItem("workspace", JSON.stringify(updatedWorkspace));
+};
+const removeTask = (categoryId, taskId) => {
+	const workspace = getWorkspace();
+   delete workspace[categoryId].todolist[taskId];
+   localStorage.setItem("workspace", JSON.stringify(workspace));
 };
 
-if (localStorage.getItem("workspaces")) {
-   workspacesList = JSON.parse(localStorage.getItem("workspaces"));
+if (localStorage.getItem("workspace")) {
    displayWorkspaces();
 }
 
 btnAddWorkspaces.addEventListener("click", function () {
-   let newWorkspacesList = {
-      workspaces: inputWorkspaces.value,
-      data: id,
-      todolist: [],
+   const newWorkspace = {
+      workspace: inputWorkspace.value,
+      todolist: {}
    };
-   id++;
-   if (!inputWorkspaces.value) return;
+   addCategory(newWorkspace);
+   if (!inputWorkspace.value) return;
 
-   workspacesList.push(newWorkspacesList);
    displayWorkspaces();
-   displaySelect();
-   inputWorkspaces.value = "";
-   updateLocalStorage();
+   // displaySelect();
+   inputWorkspace.value = "";
+
    blockWorkspaces.classList.remove("show");
 });
 
-function displayWorkspaces() {
-   let displayWorkspaces = "";
+function getWorkspace() {
+   return JSON.parse(localStorage.getItem("workspace")) || {};
+}
 
-   workspacesList.forEach((item) => {
-      displayWorkspaces += `
-										<li data="${item.workspaces}" class="list-workspaces__item">
-											${item.workspaces}
-											<button data="${item.data}" class="list-workspaces__delete"></button>
+function displayWorkspaces() {
+   let displayWorkspace = "";
+
+	const workspace = getWorkspace();
+   Object.entries(workspace).forEach(([key, item]) => {
+      displayWorkspace += `
+										<li data-id="${key}" class="list-workspaces__item">
+											${item.workspace}
+											<button data-id="${key}" class="list-workspaces__delete"></button>
 										</li>
 									`;
    });
 
-   containerListWorkspaces.innerHTML = displayWorkspaces;
+	containerListWorkspace.innerHTML = displayWorkspace;
 }
+const listWorkspaces = document.querySelectorAll(".list-workspaces__item"),
+		btnDeleteWorkspaces = document.querySelectorAll(".list-workspaces__delete");
 
-function displaySelect() {
-	containerSelect.innerHTML = '';
-   
-   workspacesList.forEach((item) => {
-      containerSelect.innerHTML += `
-									<option value="${item.workspaces}">${item.workspaces}</option>
-							  	`;
-   });
-}
-displaySelect();
+// function displaySelect() {
+//    containerSelect.innerHTML = "";
 
-containerListWorkspaces.addEventListener("click", function (e) {
-   let element = e.target;
+//    const workspace = getWorkspace();
+//    Object.entries(workspace).forEach(([key, item]) => {
+//       containerSelect.innerHTML += `
+// 									<option value="${key}">${item.workspace}</option>
+// 							  	`;
+//    });
+// }
+// displaySelect();
 
-   workspacesList.forEach(function (item, i) {
-      if (element.attributes.data.value == item.data) {
-         workspacesList.splice(i, 1);
-         displayWorkspaces();
-         displaySelect();
-         containerToDoList.innerHTML = "";
-         updateLocalStorage();
-      } else if (element.attributes.data.value == item.workspaces) {
-         addClassCurrentWorkspacesList(element);
-         displayAllList(item.todolist);
+let currentCategoryId;
+
+listWorkspaces.forEach((item, i, itemListWorkspaces) => {
+	item.addEventListener("click", function() {
+		console.log('ffffffffffffff');
+		for (let i = 0; i < itemListWorkspaces.length; i++) {
+			itemListWorkspaces[i].classList.remove("active");
 		}
-   });
+		item.classList.add("active");
+		currentCategoryId = item.dataset.id;
+		renderList(currentCategoryId);
+	});
 });
 
-let arrayListWorkspaces;
+btnDeleteWorkspaces.forEach((item) => {
+	item.addEventListener("click", function() {
+		removeCategory(item.dataset.id);
+		displayWorkspaces();
+		// displaySelect();
+	})
+})
 
-function addClassCurrentWorkspacesList(el) {
-	arrayListWorkspaces = document.querySelectorAll(".list-workspaces__item");
-   if (el.classList.contains("list-workspaces__item")) {
-      for (let i = 0; i < arrayListWorkspaces.length; i++) {
-         arrayListWorkspaces[i].classList.remove("active");
-      }
-      el.classList.add("active");
-   }
-}
+// itemListWorkspaces.addEventListener("click", function (e) {
+// 	let element = e.target;
+
+//    const workspace = getWorkspace();
+//    Object.entries(workspace).forEach(function ([key, item]) {
+//          addClassCurrentWorkspace(element);
+//          renderList(item.todolist);
+//    });
+// });
+
+// containerListWorkspace.addEventListener("click", function (e) {
+//    let element = e.target;
+   // const workspace = getWorkspace();
+   // Object.entries(workspace).forEach(function ([key, item]) {
+	// 	removeCategory()
+	// 	displayWorkspaces();
+	// 	displaySelect();
+	// 	containerTodoList.innerHTML = "";
+	// 	updateLocalStorage();
+   // });
+// });
 
 const inputMessage = document.querySelector(".task__input"),
-		inputDate = document.querySelector(".task__date"),
-  	 	btnAddTodo = document.querySelector(".task__btn"),
-   	containerToDoList = document.querySelector(".list-main");
-
-let idList = 0;
+   inputDate = document.querySelector(".task__date"),
+   btnAddTodo = document.querySelector(".task__btn"),
+   containerTodoList = document.querySelector(".list-main");
 
 btnAddTodo.addEventListener("click", function (e) {
-	const task = inputMessage.value,
-			dateTask = new Date(inputDate.value);
+   e.preventDefault();
+   const todo = inputMessage.value,
+      dateTodo = new Date(inputDate.value);
 
-   if (task && dateTask) {
-      workspacesList.forEach((item) => {
-         if (item.workspaces === containerSelect.value) {
-            item.todolist.push({
-					message: task,
-					term: dateTask.toLocaleDateString("en-Us", options),
-               id: idList,
-               completed: false
-            });
-         }
-      });
-
-      idList++;
-		inputMessage.value = "";
+   if (!inputDate.value) {
+      inputDate.classList.add("date");
+      setTimeout(() => {
+         inputDate.classList.remove("date");
+      }, 3000);
+   } else if (todo && inputDate.value) {
+      inputMessage.value = "";
 		inputDate.value = "";
+
+      addTask(currentCategoryId, {
+         message: todo,
+         term: dateTodo.toLocaleDateString("en-Us", options),
+         completed: false,
+		});
+		renderList(currentCategoryId);
    } else {
       return;
    }
-
-   updateLocalStorage();
 });
 
-let displayArrayList = [],
-	listItem;
+// let workspaceListArray = [],
+//    listItem;
 
-function displayAllList(array) {
-   containerToDoList.innerHTML = "";
-	displayArrayList = array;
-	filterList();
-
-   displayArrayList.forEach((item, index) => {
-      containerToDoList.innerHTML += createList(item, index);
+function renderList(categoryId) {
+   containerTodoList.innerHTML = "";
+   // workspaceListArray = array;
+	const workspace = getWorkspace();
+	Object.entries(workspace[categoryId].todolist).forEach(([key, item]) => {
+		containerTodoList.innerHTML += addItem(key, item);
 	});
-	
-	listItem = document.querySelectorAll(".list-main__item");
+   // sortList();
+   // filterList();
+
+   // workspaceListArray.forEach((item, index) => {
+   //    containerTodoList.innerHTML += addItem(item, index);
+   // });
+
+   // listItem = document.querySelectorAll(".list-main__item");
 }
 
-function createList(item, index) {
+function addItem(key, item) {
    return `
 				<li class="list-main__item ${item.completed ? "completed" : ""}">
-					<span data="${item.message}" class="list-main__checkbox"></span>
+					<span data-message="${item.message}" class="list-main__checkbox"></span>
 					<span class="list-main__text">${item.message}</span>
-					<span data="${item.id}" class="list-main__delete"></span>
+					<span data-id="${key}" class="list-main__delete"></span>
 					<div class="list-main__date">${item.term}</div>
 				</li>
 	`;
 }
 
-containerToDoList.addEventListener("click", function (e) {
+containerTodoList.addEventListener("click", function (e) {
    let element = e.target;
 
-   displayArrayList.forEach(function (item, index) {
-      if (element.attributes.data.value == item.id) {
-         deleteItemList(displayArrayList, index);
-      } else if (element.attributes.data.value == item.message) {
-         completedList(displayArrayList, index);
-      }
-   });
+	const workspace = getWorkspace();
+	Object.entries(workspace[currentCategoryId].todolist).forEach(([key, item]) => {
+		if (element.dataset.id == key) {
+			removeTask(currentCategoryId, key)
+		}
+		if (element.dataset.message == item.message) {
+			item.completed = !item.completed;
+			localStorage.setItem("workspace", JSON.stringify(workspace));
+			renderList(currentCategoryId);
+		}
+		
+	})
+	// removeTask(workspaceListArray, element.dataset.id);
+
+   // workspaceListArray.forEach(function (item, index) {
+   //    if (element.dataset.id == item.id) {
+   //    } else if (element.dataset.message == item.message) {
+   //       console.log("ssssssssss");
+   //       completeItem(workspaceListArray, index);
+   //    }
+   // });
 });
 
-function completedList(array, index) {
-   array[index].completed = !array[index].completed;
-   if (array[index].completed) {
-		listItem[index].classList.add('completed');
-   } else {
-		listItem[index].classList.remove('completed');
-   }
-   updateLocalStorage();
-   displayAllList(array);
-}
+// function completeItem(array, index) {
+//    array[index].completed = !array[index].completed;
+//    if (array[index].completed) {
+//       listItem[index].classList.add("completed");
+//    } else {
+//       listItem[index].classList.remove("completed");
+//    }
+//    localStorage.setItem("workspace", JSON.stringify(workspace));
+		// renderList(currentCategoryId);
+// }
 
-function deleteItemList(array, index) {
-	array.splice(index, 1);
-	updateLocalStorage();
-	displayAllList(array);
+function sortList() {
+   workspaceListArray.sort(function (a, b) {
+      return new Date(a.term) - new Date(b.term);
+   });
 }
 
 function filterList() {
-	const activeItemList = displayArrayList.filter(item => item.completed == false);
-	const comletedItemList = displayArrayList.filter(item => item.completed == true);
-	displayArrayList = [...activeItemList,...comletedItemList];
+   const activeItemList = workspaceListArray.filter(
+      (item) => item.completed == false
+   );
+   const comletedItemList = workspaceListArray.filter(
+      (item) => item.completed == true
+   );
+   workspaceListArray = [...activeItemList, ...comletedItemList];
 }
