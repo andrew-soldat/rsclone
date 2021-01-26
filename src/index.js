@@ -6,6 +6,8 @@ import example from "./js/example";
 
 import "./styles/index.scss";
 
+alert("Пожалуйста, пока не проверяйте. Приложение делаю один, без команды(кто-то ушёл, кто-то решил не делать итоговое задание). Дайте пару дней всё доделать. Спасибо.")
+
 const date = document.getElementById("date"),
    today = new Date(),
    options = { weekday: "long", month: "long", day: "numeric" };
@@ -203,6 +205,7 @@ function renderList(categoryId) {
    containerTodoList.innerHTML = "";
    // workspaceListArray = array;
 	const workspace = getWorkspace();
+	filterList();
 	Object.entries(workspace[categoryId].todolist).forEach(([key, item]) => {
 		containerTodoList.innerHTML += addItem(key, item);
 	});
@@ -271,11 +274,16 @@ function sortList() {
 }
 
 function filterList() {
-   const activeItemList = workspaceListArray.filter(
-      (item) => item.completed == false
-   );
-   const comletedItemList = workspaceListArray.filter(
-      (item) => item.completed == true
-   );
-   workspaceListArray = [...activeItemList, ...comletedItemList];
+	const workspace = getWorkspace();
+	Object.entries(workspace[currentCategoryId].todolist).forEach(([key, item]) => {
+		console.log(key, item);
+		
+	});
+   // const activeItemList = workspaceListArray.filter(
+   //    (item) => item.completed == false
+   // );
+   // const comletedItemList = workspaceListArray.filter(
+   //    (item) => item.completed == true
+   // );
+   // workspaceListArray = [...activeItemList, ...comletedItemList];
 }
