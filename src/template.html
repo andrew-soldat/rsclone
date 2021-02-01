@@ -19,40 +19,45 @@
 		<main class="main">
 			<div class='container'>
 				<div class="main__wrapper">
-					<div class="main__workspaces workspaces column-left">
-						<h3 class="workspaces__title">Workspaces</h3>
-						<ul class="workspaces__list list-workspaces">
+					<div class="main__workspace workspace column-left">
+						<h3 class="workspace__title">workspace</h3>
+						<ul class="workspace__list list-workspace">
 							
 						</ul>
-						<div class="workspaces__addItem">
-							<button class="workspaces__button"></button>
-							<span class="workspaces__text">New Workspaces</span>
-							<div class="workspaces__add-item add-item-workspaces">
-								<input class="add-item-workspaces__input"></input>
-								<button class="add-item-workspaces__btn">Add workspaces</button>
-							</div>
+						<div class="workspace__add add-workspace">
+							<button class="add-workspace__button" type="button"><span>New Workspace</span></button>
+							<form action="#" class="workspace-form">
+								<div class="workspace-form__line">
+									<input class="workspace-form__input input required" placeholder="New workspace">
+								</div>
+								<div class="workspace-form__line">
+									<button class="workspace-form__button-add" type="submit">Add workspace</button>
+									<button class="workspace-form__button-cancel" type="button">Сancel</button>
+								</div>
+							</form>
 						</div>
 					</div>
-					<div class="main__body">
-						<form class="main__task task">
-							<input type="text" class="task__input" placeholder="New task">
-							<div class="task__description">
-								<div class="task__info">
-									<label for="date" class="task__title">Term:</label>
-									<input type="date" id="dateTodo" class="task__date"  placeholder="New task">
+					<div class="main__board column-right">
+						<div class="main__title"></div>
+						<ul class="main__task list-task">
+						</ul>
+						<div class="main__add-task add-task">
+							<button class="add-task__button" type="button"><span>New task</span></button>
+							<form action="#" class="task-form">
+								<div class="task-form__line">
+									<input type="text" class="task-form__input input required" placeholder="New task">
 								</div>
-								<!-- <div class="task__info">
-									<label for="workspace" class="task__title">Select workspace:</label>
-									<select name="" id="workspace" class="task__select">
-									</select>
-								</div> -->
-								<button class="task__btn">Add task</button>
-							</div>
-						</form>
-						<div class="main__desk">
-							<ul class="main__list list-main">
-							</ul>
+								<label for="dateTask" class="task-form__title">Term:</label>
+								<div class="task-form__line">
+									<input type="date" id="dateTask" class="task-form__date input required">
+								</div>
+								<div class="task-form__line">
+									<button class="task-form__button-add" type="submit">Add task</button>
+									<button class="task-form__button-cancel" type="button">Cancel</button>
+								</div>
+							</form>
 						</div>
+						
 					</div>
 				</div>
 			</div>
