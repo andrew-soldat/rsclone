@@ -43,10 +43,10 @@ body {
   color: #000;
   font-size: 14px;
   background: url('../images/bg.jpg') 0 0 / cover no-repeat;
-}
 
-body.lock {
-  overflow: hidden;
+  &.lock {
+	  overflow: hidden;
+  }
 }
 
 input,

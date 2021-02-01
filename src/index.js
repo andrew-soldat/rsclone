@@ -9,6 +9,9 @@ import "./styles/index.scss";
 const containerDate = document.getElementById("date"),
    todayDate = new Date(),
 	options = { weekday: "long", month: "long", day: "numeric" },
+	body = document.querySelector('body'),
+	btnMenu = document.querySelector(".main__menu"),
+	wrapperWorkspace = document.querySelector(".workspace"),
 	btnShowFormWorkspace = document.querySelector(".add-workspace__button"),
    formWorkspace = document.querySelector(".workspace-form"),
 	inputWorkspace = document.querySelector(".workspace-form__input"),
@@ -31,6 +34,20 @@ let listworkspace = document.querySelectorAll(".list-workspace__item"),
 	currentCategoryId;
 
 containerDate.innerHTML = todayDate.toLocaleDateString("en-Us", options);
+
+btnMenu.addEventListener("click", function() {
+	btnMenu.classList.toggle("active");
+	wrapperWorkspace.classList.toggle("active");
+	body.classList.toggle("lock");
+});
+
+document.addEventListener("click", function(e) {
+	if (!e.target.closest(".main__menu")) {
+		btnMenu.classList.remove("active");
+		wrapperWorkspace.classList.remove("active");
+		body.classList.remove("lock");
+	}
+});
 
 btnShowFormWorkspace.addEventListener("click", function () {
 	formWorkspace.classList.toggle("show");
