@@ -139,7 +139,7 @@
 			&.active {
 				position: fixed;
 				top: 0px;
-				left: 320px;
+				left: 290px;
 				background-color: #000;
 
 				span {
@@ -274,13 +274,17 @@
 }
 .workspace-form {
 	display: none;
-	width: 280px;
+	width:280px;
 	padding: 10px;
 	background-color: #fff;
 	position: absolute;
 	border: 1px solid #9c9c9c;
 	bottom: -70px;
 	left: 10px;
+
+	@media (max-width: 750px) {
+		width: 300px;
+	}
 
 	&.show {
 		display: block;
@@ -358,7 +362,7 @@
 }
 .task-form {
 	display: none;
-	width: 300px;
+	width: 280px;
 	background-color: #fff;
 	padding: 10px;
 	border: 1px solid #9c9c9c;
@@ -421,6 +425,7 @@
 	&__item {
 		font-size: 20px;
 		color: #000;
+		line-height: 1.2;
 		padding: 15px 30px 15px 30px;
 		position: relative;
 		cursor: pointer;
@@ -435,6 +440,7 @@
 				text-decoration: line-through;
 			}
 		}
+		&:hover .list-task__edit,
 		&:hover .list-task__delete {
 			visibility: visible;
 			opacity: 1;
@@ -446,7 +452,7 @@
 		width: 20px;
 		background: url('../images/square.svg') 0 0 no-repeat;
 		position: absolute;
-		top: 14px;
+		top: 18px;
 		left: 0px;
 		z-index: 2;
 		transition: all 0.3s ease 0s;

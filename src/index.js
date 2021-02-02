@@ -42,7 +42,7 @@ btnMenu.addEventListener("click", function() {
 });
 
 document.addEventListener("click", function(e) {
-	if (!e.target.closest(".main__menu")) {
+	if (!e.target.closest(".main__menu, .add-workspace__button, .workspace-form")) {
 		btnMenu.classList.remove("active");
 		wrapperWorkspace.classList.remove("active");
 		body.classList.remove("lock");
@@ -55,10 +55,7 @@ btnShowFormWorkspace.addEventListener("click", function () {
 
 btnCancelWorkspace.addEventListener("click", function () {
 	formWorkspace.classList.remove("show");
-	for (let i = 0; i < formRequired.length; i++) {
-		const input = formRequired[i];
-		formRemoveError(input);
-	}
+	formRequired.forEach(item => formRemoveError(item));
 	formWorkspace.value = "";
 });
 
@@ -68,10 +65,7 @@ btnShowFormTask.addEventListener("click", function () {
 
 btnCancelTask.addEventListener("click", function () {
 	formTask.classList.remove("show");
-	for (let i = 0; i < formRequired.length; i++) {
-		const input = formRequired[i];
-		formRemoveError(input);
-	}
+	formRequired.forEach(item => formRemoveError(item));
 	inputTask.value = "";
    inputDate.value = "";
 });
@@ -148,7 +142,7 @@ function renderWorkspace() {
       displayworkspace();
 		inputWorkspace.value = "";
 		formWorkspace.classList.remove("show");
-		addClassCurrentWorkspace();
+		formRequired.forEach(item => formRemoveError(item));
 	}
 }
 	
@@ -163,8 +157,8 @@ function displayworkspace() {
    Object.entries(workspace).forEach(([key, item]) => {
       displayWorkspace += `
 										<li data-id="${key}" data-workspace="${item.workspace}" class="list-workspace__item">
-											${item.workspace}
-											<button data-id="${key}" class="list-workspace__delete"></button>
+										${item.workspace}
+										<button data-id="${key}" class="list-workspace__delete"></button>
 										</li>
 									`;
    });
@@ -184,7 +178,8 @@ containerListWorkspace.addEventListener("click", function (e) {
 		containerTitleWorkspace.innerHTML = `<div class="main__title_workspace">${element.dataset.workspace}</div>`;
 		currentCategoryId = element.dataset.id;
       renderList(currentCategoryId);
-   } else if (element.classList.contains("list-workspace__delete")) {
+	}
+	if (element.classList.contains("list-workspace__delete")) {
 		removeCategory(element.dataset.id);
 		if (element.dataset.id == currentCategoryId) {
 			containerTodoList.innerHTML = "";
@@ -204,7 +199,7 @@ function addClassCurrentWorkspace() {
 }
 
 formTask.addEventListener("keydown", function(e){
-	if (e.code == 'Enter') {
+	if (e.keyCode == 13) {
 		displayTask();
 	}
 })
@@ -228,20 +223,15 @@ function displayTask() {
          completed: false,
 		});
 		formTask.classList.remove("show");
-      renderList(currentCategoryId);
+		renderList(currentCategoryId);
+		formRequired.forEach(item => formRemoveError(item));
    }
 };
 
 function renderList(categoryId) {
    containerTodoList.innerHTML = "";
 	const workspace = getWorkspace();
-	console.log(workspace);
-	console.log(workspace[categoryId].todolist);
-	console.log(Object.entries(workspace));
-	
    const filteredList = sortByDate(workspace[categoryId].todolist);
-	console.log(filteredList);
-	
    filteredList.forEach(([key, item]) => {		
       containerTodoList.innerHTML += addItem(key, item);
    });
@@ -249,10 +239,10 @@ function renderList(categoryId) {
 
 function addItem(key, item) {
    return `
-				<li class="list-task__item ${item.completed ? "completed" : ""}">
+				<li class="list-task__item ${item.completed ? "completed" : ""}" data-id="${key}">
 					<span data-message="${item.message}" class="list-task__checkbox"></span>
 					<span class="list-task__text">${item.message}</span>
-					<span data-id="${key}" class="list-task__delete"></span>
+					<span class="list-task__delete"></span>
 					<div class="list-task__date">${item.term}</div>
 				</li>
 	`;
@@ -260,12 +250,12 @@ function addItem(key, item) {
 
 containerTodoList.addEventListener("click", function (e) {
    let element = e.target;
-
+	
    const workspace = getWorkspace();
    Object.entries(workspace[currentCategoryId].todolist).forEach(
       ([key, item]) => {
-         if (element.dataset.id == key) {
-            removeTask(currentCategoryId, key);
+         if (element.classList.contains("list-task__delete")) {
+            removeTask(currentCategoryId, element.parentElement.dataset.id);
             renderList(currentCategoryId);
          }
          if (element.dataset.message == item.message) {
@@ -278,20 +268,19 @@ containerTodoList.addEventListener("click", function (e) {
 });
 
 function sortByDate(todolist) {
-	console.log(Object.entries(todolist));
 	
    let sortTodolist = Object.entries(todolist)
       .slice()
       .sort(function (a, b) {
          return new Date(a.term) - new Date(b.term);
 		});
-	console.log(sortTodolist)
+
 	return sortTodolist;
 };
 
 function sortByСompleted(todolist) {
    return Object.entries(todolist)
-      .slice()
+		.slice()
       .sort((a) => {
          if (a.completed) {
             return 1;
