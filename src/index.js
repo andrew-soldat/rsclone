@@ -223,7 +223,7 @@ function renderList(categoryId) {
 function addItem(item) {
    return `
 				<li class="list-task__item ${item.completed ? 'completed' : ''}" data-id="${item.id}">
-					<span data-message="${item.message}" class="list-task__checkbox"></span>
+					<span class="list-task__checkbox"></span>
 					<span class="list-task__text">${item.message}</span>
 					<span class="list-task__delete"></span>
 					<div class="list-task__date">${item.term}</div>
@@ -241,7 +241,7 @@ containerTodoList.addEventListener('click', function (e) {
             removeTask(currentCategoryId, index);
             renderList(currentCategoryId);
          }
-         if (element.dataset.message == item.message) {
+         if (element.classList.contains("list-task__checkbox") && element.parentElement.dataset.id == item.id) {
             item.completed = !item.completed;
             localStorage.setItem('workspace', JSON.stringify(workspace));
             renderList(currentCategoryId);
