@@ -6,7 +6,7 @@
 	<meta http-equiv="x-ua-compatible" content="ie=edge" />
 	<title><%= htmlWebpackPlugin.options.title %></title>
 </head>
-<body>
+<body style="background-image: url(./assets/images/bg.jpg)">
 	<div class="wrapper">
 		<main class="main">
 			<div class='container'>
@@ -19,10 +19,10 @@
 							<button class="add-workspace__button" type="button"><span>New Workspace</span></button>
 							<form action="#" class="workspace-form">
 								<div class="workspace-form__line">
-									<input class="workspace-form__input input required" placeholder="New workspace">
+									<input type="text" class="workspace-form__workspace input" placeholder="New workspace" required>
 								</div>
 								<div class="workspace-form__line">
-									<button class="workspace-form__button-add" type="submit">Add workspace</button>
+									<button class="workspace-form__button-add" type="button">Add workspace</button>
 									<button class="workspace-form__button-cancel" type="button">Сancel</button>
 								</div>
 							</form>
@@ -46,14 +46,14 @@
 								<button class="add-task__button" type="button"><span>New task</span></button>
 								<form action="#" class="task-form">
 									<div class="task-form__line">
-										<input type="text" class="task-form__input input required" placeholder="New task">
+										<input type="text" class="task-form__task input" placeholder="New task" required>
 									</div>
 									<label for="dateTask" class="task-form__title">Term:</label>
 									<div class="task-form__line">
-										<input type="date" id="dateTask" class="task-form__date input required">
+										<input type="date" id="dateTask" class="task-form__date input" required >
 									</div>
 									<div class="task-form__line">
-										<button class="task-form__button-add" type="submit">Add task</button>
+										<button class="task-form__button-add" type="button">Add task</button>
 										<button class="task-form__button-cancel" type="button">Cancel</button>
 									</div>
 								</form>
@@ -69,7 +69,7 @@
 				<div class="footer__body">
 					<div class="footer__author">Created by 
 						<a class="footer__author_link" href="https://github.com/andrew-soldat" target="blank">Andrew Blishch</a>
-						for the<a class="footer__logo" href="https://rs.school/js/" target="blank"><img src="./images/rs_school_js.svg" alt="rs_school_js"></a>
+						for the<a class="footer__logo" href="https://rs.school/js/" target="blank"><img src="./assets/images/rs_school_js.svg" alt="rs_school_js"></a>
 					</div>
 					<div class="footer__copyright">© 2021</div>
 				</div>
